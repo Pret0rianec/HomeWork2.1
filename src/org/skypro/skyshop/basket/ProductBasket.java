@@ -35,22 +35,43 @@ public class ProductBasket {
         return total;
     }
 
+    //    public void printBasket() {
+//        if (size == 0) {
+//            System.out.println("в корзине пусто");
+//            return;
+//        }
+//        int specialProdCount = 0;
+//
+//        for (int i = 0; i < size; i++) {
+//            Product product = unit[i];
+//            System.out.println(product);
+//            if (product.isSpecial()) {
+//                specialProdCount++;
+//            }
+//        }
+//        System.out.println("Итого: " + getTotalPrice());
+//        System.out.println("Специальных товаров: " + specialProdCount);
+//    }
+    public int calculateSpecialProductsCount() {
+        int specialProdCount = 0;
+        for (int i = 0; i < size; i++) {
+            if (unit[i].isSpecial()) {
+                specialProdCount++;
+            }
+        }
+        return specialProdCount;
+    }
+
     public void printBasket() {
         if (size == 0) {
             System.out.println("в корзине пусто");
             return;
         }
-        int specialProdCount = 0;
-
         for (int i = 0; i < size; i++) {
-            Product product = unit[i];
-            System.out.println(product);
-            if (product.isSpecial()) {
-                specialProdCount++;
-            }
+            System.out.println(unit[i]);
         }
         System.out.println("Итого: " + getTotalPrice());
-        System.out.println("Специальных товаров: " + specialProdCount);
+        System.out.println("Специальных товаров: " + calculateSpecialProductsCount());
     }
 
     public boolean searchName(String getName) {
