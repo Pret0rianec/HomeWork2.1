@@ -7,22 +7,22 @@ import org.skypro.skyshop.product.Product;
 import org.skypro.skyshop.product.SimpleProduct;
 import org.skypro.skyshop.search.Article;
 import org.skypro.skyshop.search.SearchEngine;
-
+import org.skypro.skyshop.Exception.BestResultNotFound;
 import java.util.Arrays;
 
 public class App {
     public static void main(String[] args) {
         ProductBasket basket = new ProductBasket();
 
-        Product milk = new SimpleProduct("Milk", 110);
-        Product egg = new SimpleProduct("Egg", 120);
-        Product bread = new SimpleProduct("Bread", 40);
-        Product cheese = new SimpleProduct("Cheese", 280);
-        Product tomato = new SimpleProduct("Tomato", 230);
-        Product tea = new SimpleProduct("Tea", 220);
+        Product milk = new SimpleProduct("", 110);
+        Product egg = new SimpleProduct("Яйцо", -120);
+        Product bread = new SimpleProduct("Хлеб", 40);
+        Product cheese = new SimpleProduct("Сыр", 280);
+        Product tomato = new SimpleProduct("Помидор", 230);
+        Product tea = new SimpleProduct("Чай", 220);
 
-        Product soap = new FixPriceProduct("Soap");
-        Product battery = new DiscountedProduct("Battery", 100, 15);
+        Product soap = new FixPriceProduct("Мыло");
+        Product battery = new DiscountedProduct("Батарейка", 100, 15);
 
         basket.addProduct(milk);
         basket.addProduct(egg);
@@ -35,9 +35,9 @@ public class App {
 
         basket.getTotalPrice();
 
-        basket.searchName("Egg");
+        basket.searchName("Яйцо");
 
-        basket.searchName("Sugar");
+        basket.searchName("Сахар");
 
         basket.clearBasket();
 
@@ -45,7 +45,7 @@ public class App {
 
         basket.getTotalPrice();
 
-        basket.searchName("Egg");
+        basket.searchName("Яйцо");
 
         SearchEngine searchEngine = new SearchEngine(10);
 
@@ -68,5 +68,9 @@ public class App {
         System.out.println(Arrays.toString(searchEngine.search("Мол")));
         System.out.println(Arrays.toString(searchEngine.search("Яйцо")));
         System.out.println(Arrays.toString(searchEngine.search("леб")));
+
+        searchEngine.findBestElement("Масло");
+        searchEngine.findBestElement("");
+        searchEngine.findBestElement("Яйцо");
     }
 }
