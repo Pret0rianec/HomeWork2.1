@@ -2,31 +2,31 @@ package org.skypro.skyshop.search;
 
 import org.skypro.skyshop.Exception.BestResultNotFound;
 
-public class SearchEngine {
-    private Searchable[] searchables;
+import java.util.LinkedList;
+import java.util.List;
 
-    public SearchEngine(int size) {
-        this.searchables = new Searchable[size];
+public class SearchEngine {
+    private final List<Searchable> searchables;
+
+    public SearchEngine() {
+        this.searchables = new LinkedList<>();
     }
 
     public void add(Searchable element) {
-        for (int i = 0; i < searchables.length; i++) {
-            if (searchables[i] == null) {
-                searchables[i] = element;
-                return;
-            }
+        if (element != null) {
+            searchables.add(element);
         }
     }
 
-    public Searchable[] search(String searchTerm) {
-        Searchable[] result = new Searchable[5];
-        int count = 0;
+    public List<Searchable> search(String searchTerm) {
+        List<Searchable> result = new LinkedList<>();
+        if (searchTerm == null || searchTerm.isEmpty()) {
+            return result;
+        }
         for (Searchable searchable : searchables) {
-            if (searchable != null && searchable.getSearchTerm().contains(searchTerm)) {
-                result[count] = searchable;
-                count++;
-                if (count == 5) {
-                    break;
+            if (searchable != null && searchable.getSearchTerm() != null) {
+                if (searchable.getSearchTerm().contains(searchTerm)) {
+                    result.add(searchable);
                 }
             }
         }
@@ -41,13 +41,10 @@ public class SearchEngine {
             Searchable bestElement = null;
             int maxCount = 0;
             for (Searchable searchable : searchables) {
-                if (searchable == null) {
+                if (searchable == null || searchable.getSearchTerm() == null) {
                     continue;
                 }
                 String term = searchable.getSearchTerm();
-                if (term == null) {
-                    continue;
-                }
                 int count = 0;
                 int index = term.indexOf(search);
                 while (index != -1) {
@@ -69,5 +66,6 @@ public class SearchEngine {
         }
     }
 }
+
 
 

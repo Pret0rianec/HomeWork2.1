@@ -2,32 +2,53 @@ package org.skypro.skyshop.basket;
 
 import org.skypro.skyshop.product.Product;
 
+import java.util.LinkedList;
+import java.util.Iterator;
+import java.util.List;
+
 public class ProductBasket {
-    private Product[] unit;
-    private int size;
+    private final List<Product> unit;
 
     public ProductBasket() {
-        this.unit = new Product[5];
-        this.size = 0;
+        this.unit = new LinkedList<Product>();
     }
 
     public void addProduct(Product product) {
-        if (product == null) {
-            return;
+        if (product != null) {
+            unit.add(product);
         }
-        if (size >= unit.length) {
-            System.out.println("Невозможно добавить продукт");
-            return;
-        }
-        unit[size] = product;
-        size++;
     }
+
+    public void removeProduct(Product product) {
+        unit.remove(product);
+    }
+
+    public List<String> removeProdByName(String name) {
+        List<String> removedProducts = new LinkedList<>();
+        if (name == null) {
+            return removedProducts;
+        }
+        Iterator<Product> iterator = unit.iterator();
+        while (iterator.hasNext()) {
+            Product currentProd = iterator.next();
+            if (currentProd != null && name.equals(currentProd.getName())) {
+                removedProducts.add(currentProd.getName());
+                iterator.remove();
+            }
+        }
+        if (removedProducts.isEmpty()) {
+            System.out.println("Список пуст");
+        } else {
+            System.out.println(removedProducts + " - Удалённый товар!");
+        }
+        return removedProducts;
+    }
+
 
     public int getTotalPrice() {
         int total = 0;
-
-        for (int i = 0; i < size; i++) {
-            total += unit[i].getPrice();
+        for (Product product : unit) {
+            total += product.getPrice();
         }
         if (total == 0) {
             System.out.println("стоимость пустой корзины = 0");
@@ -35,27 +56,10 @@ public class ProductBasket {
         return total;
     }
 
-    //    public void printBasket() {
-//        if (size == 0) {
-//            System.out.println("в корзине пусто");
-//            return;
-//        }
-//        int specialProdCount = 0;
-//
-//        for (int i = 0; i < size; i++) {
-//            Product product = unit[i];
-//            System.out.println(product);
-//            if (product.isSpecial()) {
-//                specialProdCount++;
-//            }
-//        }
-//        System.out.println("Итого: " + getTotalPrice());
-//        System.out.println("Специальных товаров: " + specialProdCount);
-//    }
     public int calculateSpecialProductsCount() {
         int specialProdCount = 0;
-        for (int i = 0; i < size; i++) {
-            if (unit[i].isSpecial()) {
+        for (Product product : unit) {
+            if (product.isSpecial()) {
                 specialProdCount++;
             }
         }
@@ -63,12 +67,12 @@ public class ProductBasket {
     }
 
     public void printBasket() {
-        if (size == 0) {
+        if (unit.isEmpty()) {
             System.out.println("в корзине пусто");
             return;
         }
-        for (int i = 0; i < size; i++) {
-            System.out.println(unit[i]);
+        for (Product product : unit) {
+            System.out.println(product);
         }
         System.out.println("Итого: " + getTotalPrice());
         System.out.println("Специальных товаров: " + calculateSpecialProductsCount());
@@ -78,8 +82,8 @@ public class ProductBasket {
         if (getName == null) {
             return false;
         }
-        for (int i = 0; i < size; i++) {
-            if (unit[i] != null && getName.equals(unit[i].getName())) {
+        for (Product product : unit) {
+            if (product != null && getName.equals(product.getName())) {
                 System.out.println(getName + " = true");
                 return true;
             }
@@ -89,9 +93,6 @@ public class ProductBasket {
     }
 
     public void clearBasket() {
-        for (int i = 0; i < unit.length; i++) {
-            unit[i] = null;
-        }
-        size = 0;
+        unit.clear();
     }
 }
