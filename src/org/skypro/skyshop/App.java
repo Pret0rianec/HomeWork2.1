@@ -14,8 +14,8 @@ public class App {
     public static void main(String[] args) {
         ProductBasket basket = new ProductBasket();
 
-        Product milk = new SimpleProduct("", 110);
-        Product egg = new SimpleProduct("Яйцо", -120);
+        Product milk = new SimpleProduct("Молоко", 110);
+        Product egg = new SimpleProduct("Яйцо", 120);
         Product bread = new SimpleProduct("Хлеб", 40);
         Product cheese = new SimpleProduct("Сыр", 280);
         Product tomato = new SimpleProduct("Помидор", 230);
@@ -30,6 +30,11 @@ public class App {
         basket.addProduct(soap);
         basket.addProduct(battery);
         basket.addProduct(tea);
+
+        basket.removeProduct(tea);
+        basket.removeProdByName("Молоко");
+        basket.removeProdByName("Молоток");
+        basket.removeProdByName("");
 
         basket.printBasket();
 
@@ -47,7 +52,7 @@ public class App {
 
         basket.searchName("Яйцо");
 
-        SearchEngine searchEngine = new SearchEngine(10);
+        SearchEngine searchEngine = new SearchEngine();
 
         searchEngine.add(milk);
         searchEngine.add(egg);
@@ -64,10 +69,9 @@ public class App {
         searchEngine.add(art2);
         searchEngine.add(art3);
 
-
-        System.out.println(Arrays.toString(searchEngine.search("Мол")));
-        System.out.println(Arrays.toString(searchEngine.search("Яйцо")));
-        System.out.println(Arrays.toString(searchEngine.search("леб")));
+        System.out.println(searchEngine.search("Мол"));
+        System.out.println(searchEngine.search("Яйцо"));
+        System.out.println(searchEngine.search("леб"));
 
         searchEngine.findBestElement("Масло");
         searchEngine.findBestElement("");
