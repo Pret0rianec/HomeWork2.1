@@ -40,15 +40,6 @@ public class ProductBasket {
             removedProducts.addAll(products);
         }
 
-//        Iterator<Product> iterator = unit.iterator();
-//        while (iterator.hasNext()) {
-//            Product currentProd = iterator.next();
-//            if (currentProd != null && name.equals(currentProd.getName())) {
-//                removedProducts.add(currentProd);
-//                iterator.remove();
-//            }
-//        }
-
         if (removedProducts.isEmpty()) {
             System.out.println("Товар с именем '" + name + "' не найден в корзине.");
         } else {
