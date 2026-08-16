@@ -7,8 +7,6 @@ import org.skypro.skyshop.product.Product;
 import org.skypro.skyshop.product.SimpleProduct;
 import org.skypro.skyshop.search.Article;
 import org.skypro.skyshop.search.SearchEngine;
-import org.skypro.skyshop.Exception.BestResultNotFound;
-import java.util.Arrays;
 
 public class App {
     public static void main(String[] args) {
@@ -20,6 +18,7 @@ public class App {
         Product cheese = new SimpleProduct("Сыр", 280);
         Product tomato = new SimpleProduct("Помидор", 230);
         Product tea = new SimpleProduct("Чай", 220);
+        Product pommel = new SimpleProduct("Помело", 420);
 
         Product soap = new FixPriceProduct("Мыло");
         Product battery = new DiscountedProduct("Батарейка", 100, 15);
@@ -60,21 +59,22 @@ public class App {
         searchEngine.add(cheese);
         searchEngine.add(tomato);
         searchEngine.add(tea);
+        searchEngine.add(pommel);
 
         Article art1 = new Article("Молочные продукты", "Они содержат много кальция");
         Article art2 = new Article("Яйцо птицы", "Яйцо называют «природным поливитаминным комплексом»");
         Article art3 = new Article("Хлеб", "Хлеб - всему голова!");
 
-        searchEngine.add(art1);
-        searchEngine.add(art2);
-        searchEngine.add(art3);
+//        searchEngine.add(art1);
+//        searchEngine.add(art2);
+//        searchEngine.add(art3);
 
-        System.out.println(searchEngine.search("Мол"));
-        System.out.println(searchEngine.search("Яйцо"));
-        System.out.println(searchEngine.search("леб"));
+        System.out.println(searchEngine.search("о"));
+//        System.out.println(searchEngine.search("Яйцо"));
+//        System.out.println(searchEngine.search("леб"));
 
-        searchEngine.findBestElement("Масло");
-        searchEngine.findBestElement("");
-        searchEngine.findBestElement("Яйцо");
+//        searchEngine.findBestElement("Масло");
+//        searchEngine.findBestElement("");
+//        searchEngine.findBestElement("Яйцо");
     }
 }
