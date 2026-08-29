@@ -5,27 +5,34 @@ import org.skypro.skyshop.Exception.BestResultNotFound;
 import java.util.*;
 
 public class SearchEngine {
-    private final Map<String, List<Searchable>> searchables;
+    private final Set<Searchable> searchables;
 
     public SearchEngine() {
-        this.searchables = new TreeMap<>();
+        this.searchables = new TreeSet<>(Comparator.comparing(Searchable::getSearchTerm));
     }
 
     public void add(Searchable element) {
         if (element != null && element.getSearchTerm() != null) {
-            searchables.computeIfAbsent(element.getSearchTerm(), k -> new ArrayList<>()).add(element);
+            searchables.add(element);
         }
     }
 
-    public List<Searchable> search(String searchTerm) {
-        List<Searchable> result = new LinkedList<>();
+    public Set<Searchable> search(String searchTerm) {
+        Comparator<Searchable> searchComparator = (o1, o2) -> {
+            int len1 = o1.getName().length();
+            int len2 = o2.getName().length();
+            if (len1 != len2) {
+                return Integer.compare(len2, len1);
+            }
+            return o1.getName().compareTo(o2.getName());
+        };
+        Set<Searchable> result = new TreeSet<>(searchComparator);
         if (searchTerm == null || searchTerm.isEmpty()) {
             return result;
         }
-        for (Map.Entry<String, List<Searchable>> entry : searchables.entrySet()) {
-            String key = entry.getKey();
-            if (key.contains(searchTerm)) {
-                result.addAll(entry.getValue());
+        for (Searchable searchable : searchables) {
+            if (searchable.getSearchTerm().contains(searchTerm)) {
+                result.add(searchable);
             }
         }
         return result;
@@ -38,22 +45,17 @@ public class SearchEngine {
             }
             Searchable bestElement = null;
             int maxCount = 0;
-            for (List<Searchable> list : searchables.values()) {
-                for (Searchable searchable : list) {
-                    if (searchable == null || searchable.getSearchTerm() == null) {
-                        continue;
-                    }
-                    String term = searchable.getSearchTerm();
-                    int count = 0;
-                    int index = term.indexOf(search);
-                    while (index != -1) {
-                        count++;
-                        index = term.indexOf(search, index + search.length());
-                    }
-                    if (count > maxCount) {
-                        maxCount = count;
-                        bestElement = searchable;
-                    }
+            for (Searchable searchable : searchables) {
+                String term = searchable.getSearchTerm();
+                int count = 0;
+                int index = term.indexOf(search);
+                while (index != -1) {
+                    count++;
+                    index = term.indexOf(search, index + search.length());
+                }
+                if (count > maxCount) {
+                    maxCount = count;
+                    bestElement = searchable;
                 }
             }
             if (bestElement == null) {
@@ -66,6 +68,3 @@ public class SearchEngine {
         }
     }
 }
-
-
-
